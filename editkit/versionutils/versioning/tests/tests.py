@@ -241,6 +241,11 @@ class ChangesTrackingTest(TestCase):
         m.save()
         m.delete()
 
+        # SQLite recycles pks, so this test fails if we delete an object and
+        # recreate right away
+        m_dummy = M2(a='blah', b='blah', c=1)
+        m_dummy.save()
+
         m2 = M2(a="new m2!", b="new text!", c=54)
         m2.save()
 
