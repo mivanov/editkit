@@ -1,4 +1,4 @@
-LocalWiki Documentation
+EditKit Documentation
 =====================================
 
 

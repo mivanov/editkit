@@ -14,7 +14,7 @@ PPA=$1
 # Build orig.tar.gz
 cd ..
 rm -r deb_dist/
-rm -r localwiki.egg-info/
+rm -r editkit.egg-info/
 python setup.py --command-packages=stdeb.command sdist_dsc --ignore-install-requires
 cd deb_dist/
 ORIG_FILE=$(ls *.orig.tar.gz)

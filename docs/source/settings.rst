@@ -4,7 +4,7 @@ Settings
 Administration interface
 ------------------------
 
-LocalWiki comes with a web-based admin interface.  If LocalWiki is running on
+EditKit comes with a web-based admin interface.  If EditKit is running on
 your machine, it can be found at ``http://localhost/admin/``.  Otherwise,
 you can find the admin interface at ``http://<your server's address>/admin/``
 
@@ -12,7 +12,7 @@ you can find the admin interface at ``http://<your server's address>/admin/``
 
 At the prompt, enter your superuser login and password.  If you don't
 have a superuser login and password, you can create one by running
-``sudo localwiki-manage createsuperuser``.
+``sudo editkit-manage createsuperuser``.
 
 When you login, you will see all of the object types that you can modify on the
 left, and a list of recent actions done by administrators on the right(if any).
@@ -34,19 +34,8 @@ enter the domain name and display name and press "Save".
 --------------------
 
 Settings particular to your installation go in this file, found at 
-``/usr/share/localwiki/conf/localsettings.py`` on your system. Here are some
+``/usr/share/editkit/conf/localsettings.py`` on your system. Here are some
 things you may need or wish to modify:
-
-``OLWIDGET_DEFAULT_OPTIONS``
-    Defaults for all map widgets, including default location, theme, navigation
-    controls, colors, etc.
-    
-    You will want to set the the **default map location** on your localwiki.
-    Simply change ``default_lat`` and ``default_lon``.  Use this tool to look it
-    up: http://www.getlatlon.com/
-
-``CLOUDMADE_API_KEY``
-    Your developer API key from `Cloudmade <http://developers.cloudmade.com/>`_
 
 ``SITE_THEME``
     The name of the directory under ``themes`` to look for the theme templates

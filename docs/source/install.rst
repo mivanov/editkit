@@ -1,21 +1,21 @@
 Installing
 ==========
 
-The easiest way to install LocalWiki is by using our Ubuntu package.
+The easiest way to install EditKit is by using our Ubuntu package.
 
 Installing on Ubuntu
 --------------------
 
-LocalWiki is available as a prebuilt package for Ubuntu 10.04 LTS or newer.
+EditKit is available as a prebuilt package for Ubuntu 10.04 LTS or newer.
 
 Just open a terminal and run these commands::
 
    sudo apt-get install python-software-properties
    sudo apt-add-repository ppa:localwiki
    sudo apt-get update
-   sudo apt-get install localwiki
+   sudo apt-get install editkit
 
-That's it! Follow the prompts to configure LocalWiki.
+That's it! Follow the prompts to configure EditKit.
 
 .. _dev-install:
 

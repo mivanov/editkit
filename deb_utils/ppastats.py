@@ -14,7 +14,7 @@ import os
 from launchpadlib.launchpad import Launchpad
 
 archs = ["i386"]
-releases = ["lucid", "maverick", "natty", "oneiric"]
+releases = ["lucid", "maverick", "natty", "oneiric", "precise"]
 releases.reverse()
 
 if len(sys.argv) < 3:

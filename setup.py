@@ -4,7 +4,7 @@ import sys
 from fnmatch import fnmatchcase
 from distutils.util import convert_path
 
-from sapling import get_version
+from editkit import get_version
 
 
 # Provided as an attribute, so you can append to these instead
@@ -143,7 +143,7 @@ setup(
     author_email='mivanov@gmail.com',
     url='http://localwiki.org',
     packages=find_packages(),
-    package_dir={'sapling': 'sapling'},
+    package_dir={'editkit': 'editkit'},
     data_files=gen_data_files(
         ('docs', 'share/editkit/docs')
     ),
@@ -153,7 +153,7 @@ setup(
         'https://github.com/mivanov/django-honeypot/tarball/master#egg=django-honeypot-0.3.0-custom',
     ],
     entry_points={
-        'console_scripts': ['editkit-manage=sapling.manage:main'],
+        'console_scripts': ['editkit-manage=editkit.manage:main'],
     },
     classifiers=[
         'Development Status :: 3 - Alpha',

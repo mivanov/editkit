@@ -1,4 +1,4 @@
-# Django settings for sapling project.
+# Django settings for EditKit project.
 import sys
 import os
 
@@ -81,8 +81,8 @@ STATICFILES_STORAGE = 'staticfiles.storage.CachedStaticFilesStorage'
 ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 AUTHENTICATION_BACKENDS = (
-    'sapling.users.backends.CaseInsensitiveModelBackend',
-    'sapling.users.backends.RestrictiveBackend',
+    'editkit.users.backends.CaseInsensitiveModelBackend',
+    'editkit.users.backends.RestrictiveBackend',
 )
 
 AUTH_PROFILE_MODULE = 'users.UserProfile'
@@ -133,7 +133,7 @@ SHOW_IP_ADDRESSES = True
 
 LOGIN_REDIRECT_URL = '/'
 
-HAYSTACK_SITECONF = 'sapling.search_sites'
+HAYSTACK_SITECONF = 'editkit.search_sites'
 HAYSTACK_SEARCH_ENGINE = 'solr'
 
 THUMBNAIL_BACKEND = 'utils.sorl_backends.AutoFormatBackend'
@@ -176,7 +176,7 @@ MIDDLEWARE_CLASSES = (
     'redirects.middleware.RedirectFallbackMiddleware',
 )
 
-ROOT_URLCONF = 'sapling.urls'
+ROOT_URLCONF = 'editkit.urls'
 
 TEMPLATE_DIRS = (
     os.path.join(DATA_ROOT, 'templates'),
