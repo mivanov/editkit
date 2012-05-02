@@ -16,8 +16,6 @@ from utils.views import CreateObjectMixin, PermissionRequiredMixin,\
 from tags.models import PageTagSet, Tag, slugify
 from tags.forms import PageTagSetForm
 from pages.models import Page
-from maps.views import MapForTag
-from maps.widgets import InfoMap
 
 
 class PageNotFoundMixin(Custom404Mixin):
@@ -48,6 +46,10 @@ class TaggedList(ListView):
             return PageTagSet.objects.none()
 
     def get_map_objects(self):
+        try:
+            from maps.views import MapForTag
+        except ImportError:
+            return None
         if not self.tag:
             return None
         # We re-use the MapForTag view's logic here to embed a mini-map on the

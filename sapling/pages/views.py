@@ -24,7 +24,6 @@ from utils.views import (Custom404Mixin, CreateObjectMixin,
     PermissionRequiredMixin)
 from models import Page, PageFile, url_to_name
 from forms import PageForm, PageFileForm
-from maps.widgets import InfoMap
 
 from models import slugify, clean_name
 from exceptions import PageExistsError
@@ -55,19 +54,6 @@ class PageDetailView(Custom404Mixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super(PageDetailView, self).get_context_data(**kwargs)
         context['date'] = self.object.versions.most_recent().version_info.date
-        if hasattr(self.object, 'mapdata'):
-            # Remove the PanZoomBar on normal page views.
-            olwidget_options = copy.deepcopy(getattr(settings,
-                'OLWIDGET_DEFAULT_OPTIONS', {}))
-            map_opts = olwidget_options.get('map_options', {})
-            map_controls = map_opts.get('controls', [])
-            if 'PanZoomBar' in map_controls:
-                map_controls.remove('PanZoomBar')
-            olwidget_options['map_options'] = map_opts
-            olwidget_options['map_div_class'] = 'mapwidget small'
-            context['map'] = InfoMap(
-                [(self.object.mapdata.geom, self.object.name)],
-                options=olwidget_options)
         return context
 
 
@@ -111,16 +97,7 @@ class PageUpdateView(PermissionRequiredMixin, CreateObjectMixin, UpdateView):
                    self.request.path
                    )
                 )
-        map_create_link = ''
-        if not hasattr(self.object, 'mapdata'):
-            slug = self.object.pretty_slug
-            map_create_link = (
-                '<p class="create_map"><a href="%s" class="button little map">'
-                '<span class="text">Create a map</span></a> '
-                'for this page?</p>' %
-                reverse('maps:edit', args=[slug])
-            )
-        return '<div>%s</div>%s' % (message, map_create_link)
+        return '<div>%s</div>' % (message)
 
     def get_success_url(self):
         return reverse('pages:show', args=[self.object.pretty_slug])

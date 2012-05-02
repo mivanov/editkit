@@ -11,24 +11,14 @@ The following install instructions are geared for development setups or non-Ubun
 installs.
 
 1.  Prerequisites: solr + jetty, python imaging library, python lxml bindings,
-python-setuptools, virtualenv, gdal, postgresql with postgis.  Here's how we
-get these packages in Ubuntu 10.04 LTS:
+python-setuptools, and virtualenv.  Here's how we get these packages in Ubuntu10.04 LTS:
 
     $ sudo apt-get install python-setuptools solr-jetty python-lxml python-imaging
-    $ sudo apt-get install gdal-bin proj python-psycopg2
     $ sudo easy_install --upgrade virtualenv
-
-For Ubuntu 11.10 or greater:
-
-    $ sudo apt-get install postgresql-9.1-postgis
-
-For Ubuntu 11.04 or less:
-
-    $ sudo apt-get install postgresql-8.4-postgis
 
 2.  Create a virtualenv. For more info, see http://pypi.python.org/pypi/virtualenv.
 *Note*: We store some important site-specific data in the virtualenv, so don't
-delete it without first backing up the share/localwiki directory inside it.
+delete it without first backing up the share/editkit directory inside it.
 
     $ virtualenv --system-site-packages env
     
@@ -36,7 +26,7 @@ delete it without first backing up the share/localwiki directory inside it.
 
     $ source env/bin/activate
 
-3.  Install the localwiki package and its dependencies:
+3.  Install the editkit package and its dependencies:
 
 	(env)$ python setup.py install
 
@@ -48,16 +38,14 @@ differ between systems.  We use this setup_jetty.sh script on Ubuntu systems:
 Take a look at the setup_jetty.sh script (it's short). You may need to
 customize it for your particular OS.
 
-5. Initialize the localwiki install:
+5. Initialize the EditKit install:
 
-	(env)$ localwiki-manage setup_all
-
-You'll be asked to sudo in order to create the postgres database.
+	(env)$ editkit-manage setup_all
 
 You are now done configuring and installing things! You can start the built-in
 Django development server:
     
-    (env)$ localwiki-manage runserver
+    (env)$ editkit-manage runserver
 
 Hooray!  You can visit the site at http://127.0.0.1:8000/
 
@@ -66,7 +54,7 @@ Note: For security/efficiency, the built-in server listens on 127.0.0.1 only.
       See https://dev.localwiki.org for more instructions.
 
 Note: You'll want to run source env/bin/activate every time you want to access
-      the localwiki-manage command.
+      the editkit-manage command.
 
 
 === Development note ===
@@ -93,14 +81,11 @@ Help us document this stuff!  Add something to https://dev.localwiki.org or
 the github wiki.
 
 == Database Note ==
-This setup assumes we're using PostgreSQL and its geographic companion,
-PostGIS.  You should in theory be able to use any supported Django database.
-If you'd like to do something more specialized, please see the general Django
-install instructions here:
+This setup assumes we're using SQLite, which is perfect for small wiki projects
+but is probably not sufficient for a larger site. You should be able to use any
+supported Django database. If you'd like to do something more specialized,
+please see the general Django install instructions here:
 
 http://docs.djangoproject.com/en/dev/topics/install/
 
-and the GeoDjango install instructions here:
-
-http://docs.djangoproject.com/en/dev/ref/contrib/gis/install/
 -------------------------------------------------------------------------------

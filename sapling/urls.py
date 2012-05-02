@@ -6,7 +6,6 @@ from django.views.generic.simple import redirect_to
 from django.contrib.admin.views.decorators import staff_member_required
 
 import pages
-import maps
 import redirects
 import dashboard
 from users.admin import SubscribedList
@@ -14,7 +13,6 @@ from users.admin import SubscribedList
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    (r'^map/', include(maps.site.urls)),
     (r'^tags$', redirect_to, {'url': '/tags/'}),
     (r'^tags/', include('sapling.tags.urls', 'tags', 'tags')),
     (r'^_redirect/', include(redirects.site.urls)),

@@ -127,7 +127,6 @@ install_requires = [
     'python-flot-utils==0.2.1',
     'django-staticfiles==1.2.1',
     'django-registration==0.8.0',
-    'django-olwidget==0.46-custom1',
     'django-honeypot==0.3.0-custom',
     # Actually optional:
     'Sphinx==1.1.3',
@@ -136,9 +135,9 @@ if int(os.getenv('DISABLE_INSTALL_REQUIRES', '0')):
     install_requires = None
 
 setup(
-    name='localwiki',
+    name='editkit',
     version=get_version(),
-    description="LocalWiki is a tool for collaboration in local communities",
+    description="EditKit is a tool for collaboration in groups and communities",
     long_description=open(os.path.join('install_config','DESCRIPTION_pypi.txt')).read(),
     author='Mike Ivanov',
     author_email='mivanov@gmail.com',
@@ -146,16 +145,15 @@ setup(
     packages=find_packages(),
     package_dir={'sapling': 'sapling'},
     data_files=gen_data_files(
-        ('docs', 'share/localwiki/docs')
+        ('docs', 'share/editkit/docs')
     ),
     package_data=find_package_data(exclude_directories=standard_exclude_directories + ('deb_utils',) ),
     install_requires=install_requires,
     dependency_links=[
-        'https://github.com/philipn/olwidget/tarball/custom_base_layers_fixed#egg=django-olwidget-0.46-custom1',
         'https://github.com/mivanov/django-honeypot/tarball/master#egg=django-honeypot-0.3.0-custom',
     ],
     entry_points={
-        'console_scripts': ['localwiki-manage=sapling.manage:main'],
+        'console_scripts': ['editkit-manage=sapling.manage:main'],
     },
     classifiers=[
         'Development Status :: 3 - Alpha',

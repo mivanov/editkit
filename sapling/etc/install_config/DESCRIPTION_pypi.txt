@@ -1,10 +1,10 @@
 =========
-localwiki
+editkit
 =========
 
-LocalWiki is a web application that includes collaborative editing and
-mapping and is designed for collecting and sharing information in local,
-geographic communities. Depends on python, apache2, postgis, and jetty.
+EditKit is a web application that includes collaborative editing and
+and is designed for collecting and sharing information among groups
+and communities. Depends on python, apache2, postgis, and jetty.
 
 See `localwiki.org <http://localwiki.org>`_ for much more information.
 
@@ -16,11 +16,11 @@ Details here:
 
    http://localwiki.org/install
 
-You can install localwiki via pip, but you'll need to follow the usual
+You can install EditKit via pip, but you'll need to follow the usual
 installation steps and make sure you have the system-level prerequisites.
 See our INSTALL file:
 
-   https://github.com/localwiki/localwiki/blob/master/INSTALL
+   https://github.com/localwiki/editkit/blob/master/INSTALL
 
-You'll just subsitute 'pip install localwiki' for 'python setup.py install'.
+You'll just subsitute 'pip install editkit' for 'python setup.py install'.
 Everything else remains the same.

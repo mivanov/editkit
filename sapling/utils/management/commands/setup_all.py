@@ -8,7 +8,7 @@ def has_pages():
 
 
 class Command(BaseCommand):
-    help = ('Sets up the localwiki install.  '
+    help = ('Sets up the EditKit install.  '
             'Only run this command on a fresh install.')
 
     def handle(self, *args, **options):

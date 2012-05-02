@@ -14,7 +14,7 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-DATA_ROOT = os.path.join(sys.prefix, 'share', 'localwiki')
+DATA_ROOT = os.path.join(sys.prefix, 'share', 'editkit')
 PROJECT_ROOT = os.path.join(os.path.dirname(__file__))
 
 DATABASES = {
@@ -94,10 +94,7 @@ USERS_DEFAULT_GROUP = 'Authenticated'
 USERS_DEFAULT_PERMISSIONS = {'auth.group':
                                 [{'name': USERS_DEFAULT_GROUP,
                                   'permissions':
-                                    [['add_mapdata', 'maps', 'mapdata'],
-                                     ['change_mapdata', 'maps', 'mapdata'],
-                                     ['delete_mapdata', 'maps', 'mapdata'],
-                                     ['add_page', 'pages', 'page'],
+                                    [['add_page', 'pages', 'page'],
                                      ['change_page', 'pages', 'page'],
                                      ['delete_page', 'pages', 'page'],
                                      ['add_pagefile', 'pages', 'pagefile'],
@@ -110,10 +107,7 @@ USERS_DEFAULT_PERMISSIONS = {'auth.group':
                                  },
                                  {'name': USERS_ANONYMOUS_GROUP,
                                   'permissions':
-                                    [['add_mapdata', 'maps', 'mapdata'],
-                                     ['change_mapdata', 'maps', 'mapdata'],
-                                     ['delete_mapdata', 'maps', 'mapdata'],
-                                     ['add_page', 'pages', 'page'],
+                                    [['add_page', 'pages', 'page'],
                                      ['change_page', 'pages', 'page'],
                                      ['delete_page', 'pages', 'page'],
                                      ['add_pagefile', 'pages', 'pagefile'],
@@ -143,11 +137,6 @@ HAYSTACK_SITECONF = 'sapling.search_sites'
 HAYSTACK_SEARCH_ENGINE = 'solr'
 
 THUMBNAIL_BACKEND = 'utils.sorl_backends.AutoFormatBackend'
-
-OL_API = STATIC_URL + 'openlayers/OpenLayers.js?tm=1330130829'
-OLWIDGET_CSS = '%solwidget/css/sapling.css?tm=1317359250' % STATIC_URL
-OLWIDGET_JS = '%solwidget/js/olwidget.js?tm=1317359250' % STATIC_URL
-CLOUDMADE_API = '%solwidget/js/sapling_cloudmade.js?tm=1317359250' % STATIC_URL
 
 # django-honeypot options
 HONEYPOT_FIELD_NAME = 'content2'
@@ -198,7 +187,6 @@ INSTALLED_APPS = (
     # Django-provided apps
     'django.contrib.auth',
     'django.contrib.admin',
-    'django.contrib.gis',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -207,7 +195,6 @@ INSTALLED_APPS = (
 
     # Other third-party apps
     'haystack',
-    'olwidget',
     'registration',
     'sorl.thumbnail',
     'staticfiles',
@@ -220,7 +207,6 @@ INSTALLED_APPS = (
     'versionutils.diff',
     'ckeditor',
     'pages',
-    'maps',
     'users',
     'recentchanges',
     'search',

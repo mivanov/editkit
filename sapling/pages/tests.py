@@ -15,7 +15,6 @@ from django.contrib.gis.geos import GEOSGeometry
 from versionutils.merging.forms import MergeMixin
 from forms import PageForm
 from redirects.models import Redirect
-from maps.models import MapData
 
 from pages.models import (Page, PageFile, slugify,
     url_to_name, clean_name, name_to_url)
@@ -162,7 +161,7 @@ class PageTest(TestCase):
         # point to it.
         ###########################################################
         p = Page()
-        p.content = "<p>A page with files and a map.</p>"
+        p.content = "<p>A page with files and tags</p>"
         p.name = "Page With FKs"
         p.save()
         # Create a file that points at the page.
@@ -171,10 +170,6 @@ class PageTest(TestCase):
         # Create a redirect that points at the page.
         redirect = Redirect(source="foobar", destination=p)
         redirect.save()
-        # Create a map that points at the page.
-        points = GEOSGeometry("""MULTIPOINT (-122.4378964233400069 37.7971758820830033, -122.3929211425700032 37.7688207875790027, -122.3908612060599950 37.7883584775320003, -122.4056240844700056 37.8013807351830025, -122.4148937988299934 37.8002956347170027, -122.4183270263600036 37.8051784612779969)""")
-        map = MapData(points=points, page=p)
-        map.save()
         # Add tags to page
         tagset = PageTagSet(page=p)
         tagset.save()
@@ -185,7 +180,6 @@ class PageTest(TestCase):
         p.rename_to("New Page With FKs")
 
         new_p = Page.objects.get(name="New Page With FKs")
-        self.assertEqual(len(MapData.objects.filter(page=new_p)), 1)
         self.assertEqual(len(new_p.pagetagset.tags.all()), 1)
         # Two redirects: one we created explicitly and one that was
         # created during rename_to()
@@ -228,11 +222,9 @@ class PageTest(TestCase):
         p_h = p.versions.as_of(version=v_before_deleted)
         p_h.revert_to()
         p = Page.objects.get(name="Page With FKs")
-        self.assertEqual(len(MapData.objects.filter(page=p)), 1)
         self.assertEqual(len(PageFile.objects.filter(slug=p.slug)), 1)
 
         p2 = Page.objects.get(name="New Page With FKs")
-        self.assertEqual(len(MapData.objects.filter(page=p2)), 1)
         self.assertEqual(len(PageFile.objects.filter(slug=p2.slug)), 1)
 
         self.assertEqual(len(Redirect.objects.filter(destination=p2)), 1)
@@ -256,9 +248,6 @@ class PageTest(TestCase):
         # totally fucked.
         p = Page(name="Page X2", content="<p>Foo X</p>")
         p.save()
-        points = GEOSGeometry("""MULTIPOINT (-122.4378964233400069 37.7971758820830033, -122.3929211425700032 37.7688207875790027, -122.3908612060599950 37.7883584775320003, -122.4056240844700056 37.8013807351830025, -122.4148937988299934 37.8002956347170027, -122.4183270263600036 37.8051784612779969)""")
-        map = MapData(points=points, page=p)
-        map.save()
         # Create a file that points at the page.
         pf = PageFile(file=ContentFile("foooo"), name="file_foo.txt", slug=p.slug)
         pf.save()
@@ -266,14 +255,12 @@ class PageTest(TestCase):
         p.rename_to("Page Y2")
         p_new = Page.objects.get(name="Page Y2")
         # FK points at the page we renamed to.
-        self.assertEqual(len(MapData.objects.filter(page=p_new)), 1)
         self.assertEqual(len(PageFile.objects.filter(slug=p_new.slug)), 1)
 
         # Now rename it back.
         p_new.rename_to("Page X2")
         p = Page.objects.get(name="Page X2")
         # After rename-back-to, FK points to the renamed-back-to page.
-        self.assertEqual(len(MapData.objects.filter(page=p)), 1)
         self.assertEqual(len(PageFile.objects.filter(slug=p.slug)), 1)
 
         ###########################################################

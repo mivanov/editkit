@@ -5,7 +5,7 @@ import sys
 
 # We have to hard-code these here, as we run a few setup commands (in
 # setup_all) that execute before the settings can be safely loaded.
-DATA_ROOT = os.path.join(sys.prefix, 'share', 'localwiki')
+DATA_ROOT = os.path.join(sys.prefix, 'share', 'editkit')
 PROJECT_ROOT = os.path.split(os.path.abspath(__file__))[0]
 
 # Add virtualenv packages
@@ -14,7 +14,7 @@ site_packages = os.path.join(DATA_ROOT, 'env', 'lib',
 site.addsitedir(site_packages)
 
 from django.core.management import execute_manager
-from utils.management.commands import init_data_dir, init_db, init_settings
+from utils.management.commands import init_data_dir, init_settings
 
 
 def main(set_apps_path=True):
@@ -32,17 +32,13 @@ def main(set_apps_path=True):
         # let it fall through to the normal django method.
         if not os.path.exists(os.path.join(DATA_ROOT, 'conf')):
             init_data_dir.run(DATA_ROOT=DATA_ROOT, PROJECT_ROOT=PROJECT_ROOT)
-            init_db.run(DATA_ROOT=DATA_ROOT, PROJECT_ROOT=PROJECT_ROOT)
             init_settings.run(DATA_ROOT=DATA_ROOT, PROJECT_ROOT=PROJECT_ROOT)
         else:
-            print "Existing localwiki data directory found! Using %s\n" % DATA_ROOT
+            print "Existing EditKit data directory found! Using %s\n" % DATA_ROOT
 
     if len(sys.argv) >= 2:
         if sys.argv[1] == 'init_data_dir':
             init_data_dir.run(DATA_ROOT=DATA_ROOT, PROJECT_ROOT=PROJECT_ROOT)
-            return
-        if sys.argv[1] == 'init_db':
-            init_db.run(DATA_ROOT=DATA_ROOT, PROJECT_ROOT=PROJECT_ROOT)
             return
         if sys.argv[1] == 'init_settings':
             init_settings.run(DATA_ROOT=DATA_ROOT, PROJECT_ROOT=PROJECT_ROOT)

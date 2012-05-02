@@ -29,16 +29,10 @@ class Command(object):
         return secret_key
 
     def handle(self, *args, **options):
-        print 'Get a Cloudmade API Key.'
-        print '1. Go to http://cloudmade.com/register'
-        print ('2. After you\'ve signed in, click "Get an API Key". '
-               'Fill out the form (details don\'t matter)')
-        print '3. Paste the API key below:'
-        cloudmade_api_key = raw_input().strip()
-
         self._write_settings({
-            'CLOUDMADEAPIKEYHERE': cloudmade_api_key,
             'SECRETKEYHERE': self._generate_secret_key(),
+            'DBNAMEHERE': os.path.join(self.DATA_ROOT, 'data',
+                                       'editkit.sqlite3')
         })
 
 

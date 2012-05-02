@@ -12,7 +12,7 @@ class Command(object):
         settings.
         """
         share_dir = os.path.join(sys.prefix, 'share')
-        data_dir = os.path.join(share_dir, 'localwiki')
+        data_dir = os.path.join(share_dir, 'editkit')
 
         # Create the data directory and copy defaults into it.
         if not os.path.exists(share_dir):
@@ -24,12 +24,12 @@ class Command(object):
         defaults_dir = os.path.join(self.PROJECT_ROOT, 'etc', 'install_config',
             'defaults')
 
-        for item in os.listdir(os.path.join(defaults_dir, 'localwiki')):
+        for item in os.listdir(os.path.join(defaults_dir, 'editkit')):
             if os.path.exists(os.path.join(data_dir, item)):
                 sys.stderr.write("Directory %s already exists! Skipping..\n" %
                     os.path.join(data_dir, item))
                 continue
-            src = os.path.join(defaults_dir, 'localwiki', item)
+            src = os.path.join(defaults_dir, 'editkit', item)
             dst = os.path.join(data_dir, item)
             try:
                 shutil.copytree(src, dst)

@@ -7,7 +7,10 @@ from django.db.models import Max
 import pyflot
 
 from pages.models import Page, PageFile
-from maps.models import MapData
+try:
+    from maps.models import MapData
+except ImportError:
+    pass
 from redirects.models import Redirect
 from utils.views import JSONView
 
