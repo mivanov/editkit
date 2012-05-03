@@ -130,6 +130,7 @@ install_requires = [
     'django-honeypot==0.3.0-custom',
     # Actually optional:
     'Sphinx==1.1.3',
+    'localwiki-importers==0.1',
 ]
 if int(os.getenv('DISABLE_INSTALL_REQUIRES', '0')):
     install_requires = None
@@ -151,6 +152,7 @@ setup(
     install_requires=install_requires,
     dependency_links=[
         'https://github.com/mivanov/django-honeypot/tarball/master#egg=django-honeypot-0.3.0-custom',
+        'https://github.com/mivanov/localwiki-importers/tarball/master#egg=localwiki-importers-0.1',
     ],
     entry_points={
         'console_scripts': ['editkit-manage=editkit.manage:main'],
