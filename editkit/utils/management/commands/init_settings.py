@@ -32,7 +32,9 @@ class Command(object):
         self._write_settings({
             'SECRETKEYHERE': self._generate_secret_key(),
             'DBNAMEHERE': os.path.join(self.DATA_ROOT, 'data',
-                                       'editkit.sqlite3')
+                                       'editkit.sqlite3'),
+            'WHOOSHPATHHERE': os.path.join(self.DATA_ROOT, 'data',
+                                       'search_index'),
         })
 
 

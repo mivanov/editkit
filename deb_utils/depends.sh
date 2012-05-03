@@ -7,6 +7,6 @@ then
   exit 1
 fi
 
-depends="python-pip, python-virtualenv, python-setuptools, solr-jetty, python-lxml, python-imaging, libapache2-mod-wsgi, git-core, mercurial, subversion"
+depends="python-pip, python-virtualenv, python-setuptools, python-lxml, python-imaging, libapache2-mod-wsgi, git-core, mercurial, subversion"
 
 echo ${depends}

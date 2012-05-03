@@ -34,6 +34,8 @@ DAISYDIFF_MERGE_URL = 'http://localhost:8080/daisydiff/merge'
 # list of regular expressions for white listing embedded URLs
 EMBED_ALLOWED_SRC = ['.*']
 
+HAYSTACK_SEARCH_ENGINE = 'whoosh'  # Change this to 'solr' to use Solr
+HAYSTACK_WHOOSH_PATH = 'WHOOSHPATHHERE'
 HAYSTACK_SOLR_URL = 'http://localhost:8080/solr'
 
 LOCAL_INSTALLED_APPS = ()

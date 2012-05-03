@@ -5,18 +5,19 @@ installation packages. Details here:
 
 These packages are much easier to keep updated.
 
---------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
-The following install instructions are geared for development setups or non-Ubuntu
-installs.
+The following install instructions are geared for development setups or
+non-Ubuntu installs.
 
-1.  Prerequisites: solr + jetty, python imaging library, python lxml bindings,
-python-setuptools, and virtualenv.  Here's how we get these packages in Ubuntu10.04 LTS:
+1.  Prerequisites: python imaging library, python lxml bindings,
+python-setuptools, and virtualenv.  Here's how we get these packages in Ubuntu
+10.04 LTS:
 
-    $ sudo apt-get install python-setuptools solr-jetty python-lxml python-imaging
+    $ sudo apt-get install python-setuptools python-lxml python-imaging
     $ sudo easy_install --upgrade virtualenv
 
-2.  Create a virtualenv. For more info, see http://pypi.python.org/pypi/virtualenv.
+2.  Create a virtualenv. For more info, see http://pypi.python.org/pypi/virtualenv
 *Note*: We store some important site-specific data in the virtualenv, so don't
 delete it without first backing up the share/editkit directory inside it.
 
@@ -30,15 +31,7 @@ delete it without first backing up the share/editkit directory inside it.
 
 	(env)$ python setup.py install
 
-4.  Allow the search, diff services to start & back up existing config.  This will
-differ between systems.  We use this setup_jetty.sh script on Ubuntu systems:
-
-    (env)$ sudo install_config/setup_jetty.sh
-
-Take a look at the setup_jetty.sh script (it's short). You may need to
-customize it for your particular OS.
-
-5. Initialize the EditKit install:
+4.  Initialize the EditKit install:
 
 	(env)$ editkit-manage setup_all
 
@@ -70,19 +63,17 @@ You'll also probably want to set DEBUG to False in share/conf/localsettings.py
 
 -------------------------------------------------------------------------------
 We've really only tested things on Ubuntu Server Edition 10.04 LTS.  It should
-be very possible to run this on any Unix-y system.  You'll need to:
-
-  * Hunt down the correct prerequisites for Step 1.
-  * Make sure that Step 5 is completed.  Take a peek at install_config/setup_jetty.sh
-    to see what it's doing.  It's simple stuff, really, but the configuration files
-    may be in a different spot on your system.
+be very possible to run this on any Unix-y system.  You'll just need to hunt
+down the correct prerequisites for Step 1.
 
 Help us document this stuff!  Add something to https://dev.localwiki.org or
 the github wiki.
 
+
 == Database Note ==
-This setup assumes we're using SQLite, which is perfect for small wiki projects
-but is probably not sufficient for a larger site. You should be able to use any
+
+This setup uses SQLite, which is perfect for small wiki projects but is
+probably not sufficient for a larger site. You should be able to use any
 supported Django database. If you'd like to do something more specialized,
 please see the general Django install instructions here:
 

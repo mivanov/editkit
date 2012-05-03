@@ -134,7 +134,6 @@ SHOW_IP_ADDRESSES = True
 LOGIN_REDIRECT_URL = '/'
 
 HAYSTACK_SITECONF = 'editkit.search_sites'
-HAYSTACK_SEARCH_ENGINE = 'solr'
 
 THUMBNAIL_BACKEND = 'utils.sorl_backends.AutoFormatBackend'
 

@@ -15,8 +15,6 @@ case "$1" in
     triggered)
         # do the real work here
         cd "$confdir"
-        echo "Configuring jetty ..."
-        ./setup_jetty.sh
 
         if [ ! -d "$datadir/env" ]; then
             echo "Creating virtualenv ..."
