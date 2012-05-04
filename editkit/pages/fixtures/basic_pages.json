@@ -40,7 +40,6 @@
         "model": "pages.page", 
         "fields": {
             "content": "<p>\n\tDocumentation for administrators is distributed with the localwiki software in and can be found at:</p>\n<p class=\"indent1\">\n\t<tt>[<strong>editkit_root</strong>]/docs/html/index.html</tt></p>\n<p>\n\tThe latest documentation is also available online at\u00a0<a href=\"http://localwiki.org/static/docs/html/index.html\">http://localwiki.org/static/docs/html/index.html</a></p>\n", 
-i
             "name": "Admin documentation", 
             "slug": "admin documentation"
         }
