@@ -13,7 +13,7 @@ from versionutils.diff.diffutils import TextFieldDiff
 from versionutils.diff.diffutils import FileFieldDiff
 from versionutils.diff.diffutils import ImageFieldDiff
 from versionutils.diff.diffutils import HtmlFieldDiff
-from versionutils.diff.diffutils import GeometryFieldDiff
+
 
 mgr = TestSettingsManager()
 INSTALLED_APPS = list(settings.INSTALLED_APPS)
@@ -210,120 +210,6 @@ class HtmlFieldTest(TestCase):
         self.assertTrue('<del>abc</del>' in htmlDiff.as_html())
 
         HtmlFieldDiff.DAISYDIFF_URL = backup
-
-
-class GeometryFieldDiffTest(BaseFieldDiffTest):
-    def setUp(self):
-        self.test_class = GeometryFieldDiff
-
-    def collection_contains_only(self, cls, collection):
-        from django.contrib.gis.geos import GeometryCollection
-        if type(collection) == cls:
-            return True
-        for o in collection:
-            if isinstance(o, GeometryCollection):
-                if not self.collection_contains_only(cls, o):
-                    return False
-            if type(o) != cls:
-                return False
-        return True
-
-    def collection_size(self, collection):
-        from django.contrib.gis.geos import GeometryCollection
-        if not isinstance(collection, GeometryCollection):
-            return 1
-        i = 0
-        for o in collection:
-            if isinstance(o, GeometryCollection):
-                i += self.collection_size(o)
-            else:
-                i += 1
-        return i
-
-    def test_deleted_inserted(self):
-        from django.contrib.gis.geos import GEOSGeometry
-        from django.contrib.gis.geos import Polygon, GeometryCollection
-        from django.contrib.gis.geos import Point, LineString
-
-        # A polygon.
-        a = GEOSGeometry("""{ "type": "GeometryCollection", "geometries": [ { "type": "Polygon", "coordinates": [ [ [ -122.492462, 37.773390 ], [ -122.493664, 37.758327 ], [ -122.476412, 37.758260 ], [ -122.465426, 37.771355 ], [ -122.481734, 37.778953 ], [ -122.492462, 37.773390 ] ] ] } ] }""", srid=4326)
-        # Polygon a with a bit added and a bit removed.
-        b = GEOSGeometry("""{ "type": "GeometryCollection", "geometries": [ { "type": "Polygon", "coordinates": [ [ [ -122.492462, 37.773390 ], [ -122.493664, 37.758327 ], [ -122.489523, 37.759362 ], [ -122.485038, 37.759854 ], [ -122.476412, 37.758260 ], [ -122.465426, 37.771355 ], [ -122.481734, 37.778953 ], [ -122.485403, 37.779666 ], [ -122.488557, 37.778479 ], [ -122.492462, 37.773390 ] ] ] } ] }""", srid=4326)
-        d = self.test_class(a, b).as_dict()
-        deleted = d['deleted']
-        inserted = d['inserted']
-
-        # Deleted portion should contain a single polygon.
-        if type(d['deleted']) == GeometryCollection:
-            self.assertEqual(len(d['deleted']), 1)
-            deleted = d['deleted'][0]
-        if type(d['inserted']) == GeometryCollection:
-            self.assertEqual(len(d['inserted']), 1)
-            inserted = d['inserted'][0]
-
-        self.assertEqual(type(inserted), Polygon)
-        self.assertEqual(type(deleted), Polygon)
-
-        # A bunch of geometries.
-        a = GEOSGeometry("""{ "type": "GeometryCollection", "geometries": [ { "type": "Polygon", "coordinates": [ [ [ -122.493149, 37.765401 ], [ -122.492548, 37.761262 ], [ -122.486540, 37.761262 ], [ -122.493149, 37.765401 ] ] ] }, { "type": "MultiPolygon", "coordinates": [ [ [ [ -122.460834, 37.766249 ], [ -122.458087, 37.762585 ], [ -122.462636, 37.759939 ], [ -122.468816, 37.757768 ], [ -122.475168, 37.757157 ], [ -122.461478, 37.761568 ], [ -122.460834, 37.766249 ] ] ], [ [ [ -122.488815, 37.777240 ], [ -122.467185, 37.775748 ], [ -122.467529, 37.760821 ], [ -122.487184, 37.763196 ], [ -122.488815, 37.777240 ] ] ] ] }, { "type": "Point", "coordinates": [ -122.472249, 37.779615 ] }, { "type": "Point", "coordinates": [ -122.482291, 37.779886 ] }, { "type": "Point", "coordinates": [ -122.463495, 37.762925 ] }, { "type": "LineString", "coordinates": [ [ -122.458087, 37.774255 ], [ -122.462550, 37.775477 ], [ -122.464610, 37.772220 ], [ -122.474567, 37.773984 ], [ -122.484866, 37.769506 ], [ -122.497483, 37.769845 ] ] }, { "type": "LineString", "coordinates": [ [ -122.477142, 37.777715 ], [ -122.473966, 37.759803 ] ] }, { "type": "Point", "coordinates": [ -122.464224, 37.777478 ] }, { "type": "Point", "coordinates": [ -122.458302, 37.770897 ] }, { "type": "LineString", "coordinates": [ [ -122.496239, 37.766080 ], [ -122.495896, 37.758005 ], [ -122.482592, 37.758480 ] ] } ] }""", srid=4326)
-
-        # Geometry from a with a point removed, a polygon removed, a
-        # line removed, a line added, a point added and a polygon
-        # added.
-        b = GEOSGeometry("""{ "type": "GeometryCollection", "geometries": [ { "type": "Polygon", "coordinates": [ [ [ -122.461563, 37.770694 ], [ -122.464138, 37.766962 ], [ -122.458044, 37.767165 ], [ -122.461563, 37.770694 ] ] ] }, { "type": "MultiPolygon", "coordinates": [ [ [ [ -122.460834, 37.766249 ], [ -122.458087, 37.762585 ], [ -122.462636, 37.759939 ], [ -122.468816, 37.757768 ], [ -122.475168, 37.757157 ], [ -122.461478, 37.761568 ], [ -122.460834, 37.766249 ] ] ], [ [ [ -122.488815, 37.777240 ], [ -122.467185, 37.775748 ], [ -122.467529, 37.760821 ], [ -122.487184, 37.763196 ], [ -122.488815, 37.777240 ] ] ] ] }, { "type": "Point", "coordinates": [ -122.482291, 37.779886 ] }, { "type": "Point", "coordinates": [ -122.463495, 37.762925 ] }, { "type": "LineString", "coordinates": [ [ -122.477142, 37.777715 ], [ -122.473966, 37.759803 ] ] }, { "type": "Point", "coordinates": [ -122.464224, 37.777478 ] }, { "type": "Point", "coordinates": [ -122.458302, 37.770897 ] }, { "type": "LineString", "coordinates": [ [ -122.496239, 37.766080 ], [ -122.495896, 37.758005 ], [ -122.482592, 37.758480 ] ] }, { "type": "Point", "coordinates": [ -122.491432, 37.775036 ] }, { "type": "LineString", "coordinates": [ [ -122.455469, 37.766758 ], [ -122.455469, 37.760719 ], [ -122.465769, 37.756173 ] ] } ] }""", srid=4326)
-
-        d = self.test_class(a, b).as_dict()
-        deleted = d['deleted']
-        inserted = d['inserted']
-
-        deleted_polys = [g for g in deleted if type(g) == Polygon]
-        inserted_polys = [g for g in inserted if type(g) == Polygon]
-        self.assertEqual(len(deleted_polys), 1)
-        self.assertEqual(len(inserted_polys), 1)
-
-        deleted_points = [g for g in deleted if type(g) == Point]
-        inserted_points = [g for g in inserted if type(g) == Point]
-        self.assertEqual(len(deleted_points), 1)
-        self.assertEqual(len(inserted_points), 1)
-
-        deleted_lines = [g for g in deleted if type(g) == LineString]
-        inserted_lines = [g for g in inserted if type(g) == LineString]
-        # We might break up linestrings into lots of linestrings..so
-        # it's hard to tell.  Let's just check to make sure it's
-        # non-empty for now.
-        self.assertTrue(len(deleted_lines) != 0)
-        self.assertTrue(len(inserted_lines) != 0)
-
-    def test_line_inserted(self):
-        from django.contrib.gis.geos import GEOSGeometry, LineString
-        # A polygon.
-        a = GEOSGeometry("""{ "type": "GeometryCollection", "geometries": [ { "type": "Polygon", "coordinates": [ [ [ -122.471199, 37.780625 ], [ -122.470169, 37.724435 ], [ -122.393264, 37.725793 ], [ -122.398071, 37.781711 ], [ -122.471199, 37.780625 ] ] ] } ] }""", srid=4326)
-        # Polygon from a with a line through it.
-        b = GEOSGeometry("""{ "type": "GeometryCollection", "geometries": [ { "type": "Polygon", "coordinates": [ [ [ -122.471199, 37.780625 ], [ -122.470169, 37.724435 ], [ -122.393264, 37.725793 ], [ -122.398071, 37.781711 ], [ -122.471199, 37.780625 ] ] ] }, { "type": "LineString", "coordinates": [ [ -122.487163, 37.770992 ], [ -122.364597, 37.731902 ] ] } ] }""", srid=4326)
-
-        d = self.test_class(a, b).as_dict()
-
-        # The diff should contain a *single* line segment.
-        self.assertTrue(self.collection_contains_only(LineString, d['inserted']))
-        self.assertEqual(self.collection_size(d['inserted']), 1)
-
-    def test_collection_handling(self):
-        from django.contrib.gis.geos import GEOSGeometry, Point
-        # A collection with three points.
-        a = GEOSGeometry("""GEOMETRYCOLLECTION (POINT (-122.4171253967300004 37.8168416846629967), POINT (-122.5226971435500047 37.7849668879050000), POINT (-122.4329182433999961 37.7185961029840016))""")
-        # Collection A with a point moved.
-        b = GEOSGeometry("""GEOMETRYCOLLECTION (POINT (-122.4171253967300004 37.8168416846629967), POINT (-122.4749752807600061 37.7958194267970029), POINT (-122.4329182433999961 37.7185961029840016))""")
-
-        d = self.test_class(a, b).as_dict()
-
-        # The diff should have one point added, one point deleted, one
-        # point the same.
-        self.assertTrue(self.collection_contains_only(Point, d['inserted']))
-        self.assertEqual(self.collection_size(d['inserted']), 1)
-        self.assertTrue(self.collection_contains_only(Point, d['deleted']))
-        self.assertEqual(self.collection_size(d['deleted']), 1)
-        self.assertTrue(self.collection_contains_only(Point, d['same']))
-        self.assertEqual(self.collection_size(d['same']), 2)
 
 
 class DiffRegistryTest(TestCase):
