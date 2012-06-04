@@ -198,19 +198,6 @@ class HtmlFieldTest(TestCase):
         htmlDiff = HtmlFieldDiff('abc', 'def')
         self.assertTrue('def</ins>' in htmlDiff.as_html())
 
-    def test_daisydiff_broken_fallback(self):
-        """
-        In case something is wrong with the DaisyDiff service, fallback to
-        text-only diff
-        """
-        backup = HtmlFieldDiff.DAISYDIFF_URL
-
-        HtmlFieldDiff.DAISYDIFF_URL = 'http://badurl'
-        htmlDiff = HtmlFieldDiff('abc', 'def')
-        self.assertTrue('<del>abc</del>' in htmlDiff.as_html())
-
-        HtmlFieldDiff.DAISYDIFF_URL = backup
-
 
 class DiffRegistryTest(TestCase):
     def setUp(self):

@@ -301,17 +301,12 @@ class HtmlFieldDiff(BaseFieldDiff):
     To use for a field type, first register in your code like this:
     diff.register(MyHtmlField, diff.HtmlFieldDiff)
     """
-    DAISYDIFF_URL = getattr(settings, 'DAISYDIFF_URL', 'http://localhost:8080')
-
     def as_html(self):
         d = self.get_diff()
         if d is None:
             return '<tr><td colspan="2">(No differences found)</td></tr>'
-        try:
-            return daisydiff.daisydiff(d['deleted'], d['inserted'],
-                                       self.DAISYDIFF_URL)
-        except:
-            return TextFieldDiff(d['deleted'], d['inserted']).as_html()
+        return ('<tr class="htmldiff"><td>%s</td><td>%s</td></tr>'
+                                          % (d['deleted'], d['inserted']))
 
     def get_diff(self):
         if self.field1 == self.field2:
@@ -319,7 +314,8 @@ class HtmlFieldDiff(BaseFieldDiff):
         return {'deleted': self.field1, 'inserted': self.field2}
 
     class Media:
-        js = (static_url('js/diff/htmldiff.js'),
+        js = (static_url('js/diff_match_patch/diff_match_patch_uncompressed.js'),
+              static_url('js/diff/htmldiff.js'),
               static_url('js/jquery.qtip.min.js'))
         css = {'all': (static_url('css/jquery.qtip.min.css'),)}
 
