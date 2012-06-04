@@ -204,6 +204,7 @@ INSTALLED_APPS = (
     # Our apps
     'versionutils.versioning',
     'versionutils.diff',
+    'versionutils.merging',
     'ckeditor',
     'pages',
     'users',
