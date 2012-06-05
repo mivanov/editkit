@@ -14,7 +14,7 @@ site_packages = os.path.join(DATA_ROOT, 'env', 'lib',
 site.addsitedir(site_packages)
 
 from django.core.management import execute_manager
-from utils.management.commands import init_data_dir, init_settings
+from utils.management.commands import init_data_dir, init_db, init_settings
 
 
 def main(set_apps_path=True):
@@ -32,7 +32,10 @@ def main(set_apps_path=True):
         # let it fall through to the normal django method.
         if not os.path.exists(os.path.join(DATA_ROOT, 'conf')):
             init_data_dir.run(DATA_ROOT=DATA_ROOT, PROJECT_ROOT=PROJECT_ROOT)
-            init_settings.run(DATA_ROOT=DATA_ROOT, PROJECT_ROOT=PROJECT_ROOT)
+            postgres = 'postgres' in sys.argv
+            init_db.run(DATA_ROOT=DATA_ROOT, PROJECT_ROOT=PROJECT_ROOT, POSTGRES=postgres)
+            solr = 'solr' in sys.argv
+            init_settings.run(DATA_ROOT=DATA_ROOT, PROJECT_ROOT=PROJECT_ROOT, SOLR=solr)
         else:
             print "Existing EditKit data directory found! Using %s\n" % DATA_ROOT
 
@@ -40,8 +43,13 @@ def main(set_apps_path=True):
         if sys.argv[1] == 'init_data_dir':
             init_data_dir.run(DATA_ROOT=DATA_ROOT, PROJECT_ROOT=PROJECT_ROOT)
             return
+        if sys.argv[1] == 'init_db':
+            postgres = 'postgres' in sys.argv
+            init_db.run(DATA_ROOT=DATA_ROOT, PROJECT_ROOT=PROJECT_ROOT, POSTGRES=postgres)
+            return
         if sys.argv[1] == 'init_settings':
-            init_settings.run(DATA_ROOT=DATA_ROOT, PROJECT_ROOT=PROJECT_ROOT)
+            solr = 'solr' in sys.argv
+            init_settings.run(DATA_ROOT=DATA_ROOT, PROJECT_ROOT=PROJECT_ROOT, SOLR=solr)
             return
 
     try:

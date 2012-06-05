@@ -29,17 +29,20 @@ class Command(object):
         return secret_key
 
     def handle(self, *args, **options):
+        haystack_engine = 'whoosh'
+        if self.SOLR:
+            haystack_engine = 'solr'
         self._write_settings({
             'SECRETKEYHERE': self._generate_secret_key(),
-            'DBNAMEHERE': os.path.join(self.DATA_ROOT, 'data',
-                                       'editkit.sqlite3'),
+            'HAYSTACKENGINEHERE': haystack_engine,
             'WHOOSHPATHHERE': os.path.join(self.DATA_ROOT, 'data',
-                                       'search_index'),
+                                           'search_index'),
         })
 
 
-def run(DATA_ROOT=None, PROJECT_ROOT=None):
+def run(DATA_ROOT=None, PROJECT_ROOT=None, SOLR=None):
     c = Command()
     c.DATA_ROOT = DATA_ROOT
     c.PROJECT_ROOT = PROJECT_ROOT
+    c.SOLR = SOLR
     c.handle()

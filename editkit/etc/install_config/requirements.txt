@@ -3,6 +3,7 @@ html5lib==0.95
 diff-match-patch==20120106
 sorl-thumbnail==11.12
 python-dateutil==1.5
+pysolr==2.1.0-beta
 django-haystack==1.2.6
 whoosh==2.4.0
 django-randomfilenamestorage==1.1

@@ -15,6 +15,8 @@ case "$1" in
     triggered)
         # do the real work here
         cd "$confdir"
+        echo "Configuring jetty ..."
+        ./setup_jetty.sh
 
         if [ ! -d "$datadir/env" ]; then
             echo "Creating virtualenv ..."
@@ -29,7 +31,7 @@ case "$1" in
         deactivate
 
         echo "Configuring EditKit ..."
-        editkit-manage setup_all
+        editkit-manage setup_all postgres solr
 
         # If first time setup, initialize site and wiki
         if [ ! -d "$datadir/deploy" ]; then
