@@ -6,7 +6,7 @@ from versionutils.merging.forms import MergeMixin
 from versionutils.versioning.forms import CommentMixin
 from pages.models import Page, PageFile, slugify
 from pages.widgets import WikiEditor
-from versionutils.diff.daisydiff.daisydiff import daisydiff_merge
+from versionutils.merging import merge_html
 
 
 class PageForm(MergeMixin, CommentMixin, forms.ModelForm):
@@ -25,7 +25,7 @@ class PageForm(MergeMixin, CommentMixin, forms.ModelForm):
         ancestor_content = ''
         if ancestor:
             ancestor_content = ancestor['content']
-        (merged_content, conflict) = daisydiff_merge(
+        (merged_content, conflict) = merge_html(
             yours['content'], theirs['content'], ancestor_content
         )
         if conflict:
