@@ -20,9 +20,9 @@ case "$1" in
 
         if [ ! -d "$datadir/env" ]; then
             echo "Creating virtualenv ..."
-            cd "$datadir"
-            virtualenv --quiet env
         fi
+        cd "$datadir"
+        virtualenv --quiet env
 
         . "$datadir/env/bin/activate"
         cd "$confdir"
@@ -32,6 +32,9 @@ case "$1" in
 
         echo "Configuring EditKit ..."
         editkit-manage setup_all postgres solr
+
+        # Enable mod_wsgi
+        a2enmod wsgi > /dev/null 2>&1
 
         # If first time setup, initialize site and wiki
         if [ ! -d "$datadir/deploy" ]; then
