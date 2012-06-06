@@ -1,7 +1,7 @@
 Permissions
 ===========
 
-LocalWiki uses a pretty flexible system of permissions that allows the
+EditKit uses a pretty flexible system of permissions that allows the
 administrator to say who is allowed to add, change, and delete different
 objects (pages, maps, files, etc.).  It also lets the administrator ban users
 who are malicious.
@@ -122,10 +122,7 @@ them.  At the time of writing this, the setting looks like this::
     USERS_DEFAULT_PERMISSIONS = {'auth.group':
                                  [{'name': USERS_DEFAULT_GROUP,
                                    'permissions':
-                                     [['add_mapdata', 'maps', 'mapdata'],
-                                      ['change_mapdata', 'maps', 'mapdata'],
-                                      ['delete_mapdata', 'maps', 'mapdata'],
-                                      ['add_page', 'pages', 'page'],
+                                     [['add_page', 'pages', 'page'],
                                       ['change_page', 'pages', 'page'],
                                       ['delete_page', 'pages', 'page'],
                                       ['add_pagefile', 'pages', 'pagefile'],
@@ -138,10 +135,7 @@ them.  At the time of writing this, the setting looks like this::
                                   },
                                   {'name': USERS_ANONYMOUS_GROUP,
                                    'permissions':
-                                     [['add_mapdata', 'maps', 'mapdata'],
-                                      ['change_mapdata', 'maps', 'mapdata'],
-                                      ['delete_mapdata', 'maps', 'mapdata'],
-                                      ['add_page', 'pages', 'page'],
+                                     [['add_page', 'pages', 'page'],
                                       ['change_page', 'pages', 'page'],
                                       ['delete_page', 'pages', 'page'],
                                       ['add_pagefile', 'pages', 'pagefile'],
@@ -159,7 +153,7 @@ You can edit this setting by adding or removing permissions for certain groups
 or adding your own groups.  To apply these permissions (and overwrite the
 previously set defaults), run the following command::
 
-    localwiki-manage reset_permissions
+    editkit-manage reset_permissions
 
 .. note ::
    Regardless of everything said in this section, administrators and superusers

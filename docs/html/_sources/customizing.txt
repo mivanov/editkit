@@ -1,8 +1,8 @@
-Customizing your localwiki's appearance
+Customizing your EditKit's appearance
 =======================================
 
 It's possible to completely customize the appearance and some of the
-behavior of the LocalWiki software without having to dig into the
+behavior of the EditKit software without having to dig into the
 underlying code.  You can do this by customizing the site's CSS, the
 site's templates, and by creating entirely new themes.
 
@@ -14,19 +14,19 @@ knowledge of CSS and HTML.
 .. note:: If you're a developer and have been playing around, make sure
    you have set ``DEBUG`` to ``False`` in ``localsettings.py``,
    otherwise you won't see static media show up when using
-   ``localwiki-manage runsever``.
+   ``editkit-manage runsever``.
 
 
 Template files
 --------------
 
-The LocalWiki software has the concept of a *template*.  A template is
-a text file on the server running the LocalWiki software, and it's used to
+The EditKit software has the concept of a *template*.  A template is
+a text file on the server running the EditKit software, and it's used to
 generate pages throughout the site.
 
 .. note:: These *template files* are very different from "Template pages" on
    the wiki. Template pages on the wiki are for creating new pages more
-   easily. *Template files* on the server are used by the LocalWiki software to
+   easily. *Template files* on the server are used by the EditKit software to
    generate the site itself.
 
 These templates are simply
@@ -36,8 +36,8 @@ language.  Check out the `Django template documentation <https://docs.djangoproj
 for everything that's possible with the templates.  You don't need to read the
 template documentation to make simple customizations, though.
 
-The global template directory is ``/usr/share/localwiki/templates``, or
-``env/share/localwiki/templates`` (for manual installations).
+The global template directory is ``/usr/share/editkit/templates``, or
+``env/share/editkit/templates`` (for manual installations).
 
 
 Themes
@@ -52,10 +52,8 @@ Each theme is simply a directory containing:
 * A directory with static assets (``assets/``) like CSS and images.
 
 
-The global themes directory is ``/usr/share/localwiki/themes``, or
-``env/share/localwiki/themes`` (for manual installations).  *NOTE*: If
-you are running localwiki-0.2-beta-12 you may have to create this
-directory by hand.
+The global themes directory is ``/usr/share/editkit/themes``, or
+``env/share/editkit/themes`` (for manual installations).
 
 
 Tutorial
@@ -72,13 +70,13 @@ making an new theme is overkill.
 
 First, let's find the built-in templates.  Type::
 
-    localwiki-manage shell
+    editkit-manage shell
 
-then once you're in the localwiki shell, copy and paste this::
+then once you're in the EditKit shell, copy and paste this::
 
-    import sapling; print sapling.__path__[0]; exit()
+    import editkit; print editkit.__path__[0]; exit()
 
-This will print out where the localwiki code itself lives on your
+This will print out where the EditKit code itself lives on your
 system.
 
 .. note:: It's not a good idea to modify the files in the code directory
@@ -112,17 +110,17 @@ over to our global templates directory and then customize it.
 First, let's make a ``site`` directory inside our global template
 directory (explained above).
 
-The global template directory is ``/usr/share/localwiki/templates``, or
-``env/share/localwiki/templates`` (for manual installs)::
+The global template directory is ``/usr/share/editkit/templates``, or
+``env/share/editkit/templates`` (for manual installs)::
 
-    mkdir /usr/share/localwiki/templates/site
+    mkdir /usr/share/editkit/templates/site
 
 then copy the file over::
 
-    cp site_title.html /usr/share/localwiki/templates/site
+    cp site_title.html /usr/share/editkit/templates/site
 
 Now we simply open up the copy of the template we made,
-``/usr/share/localwiki/templates/site/site_title.html``.  It looks like
+``/usr/share/editkit/templates/site/site_title.html``.  It looks like
 this::
 
     {% block site_title %}
@@ -140,8 +138,8 @@ Let's change it to look like this::
     {% endblock %}
 
 Now we need to go design a pretty logo, name it ``logo.png`` and move it
-into the static directory, located at ``/usr/share/localwiki/static`` or
-``env/share/localwiki/static`` (for manual installations).
+into the static directory, located at ``/usr/share/editkit/static`` or
+``env/share/editkit/static`` (for manual installations).
 
 Once we've done all this we'll need to restart the webserver.  You can
 usually do this by running the command::
@@ -193,8 +191,8 @@ CSS file and reference it from the page's HTML.  Here's how we do this:
 
 1. We make a new file, in our case named ``denton.css``, inside of the
 global static directory.  In our case, this is
-``/usr/share/localwiki/static/css/denton.css`` (or
-``env/share/localwiki/static/css`` for manual installations).
+``/usr/share/editkit/static/css/denton.css`` (or
+``env/share/editkit/static/css`` for manual installations).
 
 2. Inside ``denton.css`` we place the following contents, which
 customize the appearance of tables with the class ``welcome``::
@@ -245,22 +243,22 @@ customize the appearance of tables with the class ``welcome``::
 added simply by uploading a file named ``welcome.jpg`` to the Front
 Page.  You'll want to copy 
 `80_trans_white_bg.png <https://dentonwiki.org/static/img/80_trans_white_bg.png>`_
-to ``/usr/share/localwiki/static/img`` (or
-``env/share/locawiki/static/img`` for manual installations)
+to ``/usr/share/editkit/static/img`` (or
+``env/share/editkit/static/img`` for manual installations)
 
 4. Now we want to reference this new ``denton.css`` file from the HTML
-of all the pages.  Let's go back into the localwiki code directory,
+of all the pages.  Let's go back into the EditKit code directory,
 referenced in the beginning of :ref:`Example 1 <example1>` and copy over ``sites/base.html``
 to our global templates directory::
 
-    $ cd /path/to/localwiki/code/directory
+    $ cd /path/to/editkit/code/directory
     $ cd themes/sapling/templates/site
     $ ls
     base.html  login_info.html  nav.html  search_form.html  site_title.html
-    $ cp base.html /usr/share/localwiki/templates/site/
+    $ cp base.html /usr/share/editkit/templates/site/
 
 and then open up the new
-``/usr/share/localwiki/templates/site/base.html``
+``/usr/share/editkit/templates/site/base.html``
 file.  We'll change this portion of the file::
 
   {% block media %}
@@ -289,23 +287,20 @@ Creating an entirely new theme
 After a certain amount of customization it may make sense to create an
 entirely new theme.  Here's how you'd go about doing this:
 
-1. Go into the localwiki code directory, referenced in the beginning of
+1. Go into the EditKit code directory, referenced in the beginning of
 Example 1, and copy the ``sapling`` theme directory to your global
 ``themes`` directory::
 
-    $ cd /path/to/localwiki/code/directory
+    $ cd /path/to/editkit/code/directory
     $ cd themes/
-    $ cp -r sapling /usr/share/localwiki/themes/nameofyourtheme
+    $ cp -r sapling /usr/share/editkit/themes/nameofyourtheme
 
-.. note:: In localwiki-0.12-beta-12 there wasn't a ``themes`` directory
-   in share/localwiki.  Create it if it's missing.
-
-Then edit the ``/usr/share/localwiki/conf/localsettings.py`` file and change the
+Then edit the ``/usr/share/editkit/conf/localsettings.py`` file and change the
 ``SITE_THEME`` value from ``sapling`` to ``nameofyourtheme``.
 
 Then simply run::
 
-    localwiki-manage collectstatic
+    editkit-manage collectstatic
 
 and restart the webserver::
 
@@ -315,7 +310,7 @@ and the site will be using your new theme.
 
 As you develop your theme you'll need to restart the
 webserver whenever you change the ``templates/`` and run
-``localwiki-manage collectstatic`` whenever you change the ``assets/``.
+``editkit-manage collectstatic`` whenever you change the ``assets/``.
 
 
 Referring to static assets in templates
